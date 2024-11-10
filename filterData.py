@@ -2,7 +2,7 @@ import pandas as pd
 
 def filtrar_datos():
     # Leer el archivo CSV
-    csv_path = 'base/BDDenemdu_personas_2023_anual.csv'
+    csv_path = 'base/enemdu_persona_2024_07.csv'
     delimiter = ';'
     mes=1
     sueldo_min=550 
@@ -15,11 +15,13 @@ def filtrar_datos():
     Experiencia = 'p45'
     Sueldo = 'p66'
     EstadoCivil = 'p06'
+    Edad = 'p06'
     Etnia = 'p15'
     NivelInstruccion = 'p10a'
 
     # Filtrar el DataFrame para que solo sean los datos del mes que nos interesa
-    filteredMes = df[df[Mes] == mes]
+    # filteredMes = df[df[Mes] == mes]
+    filteredMes = df
     
     # Limpiar la columna Sueldo: eliminar espacios en blanco o reemplazarlos por NaN
     filteredMes[Sueldo] = filteredMes[Sueldo].replace(' ', None)

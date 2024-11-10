@@ -12,6 +12,7 @@ EstadoCivil = 'p06'
 Experiencia = 'p45'
 Etnia = 'p15'
 NivelInstruccion = 'p10a'  # Assuming 'p10' is the column for 'Nivel de instrucción'
+Edad = 'p03'
 PathPromedios = 'graficos/promediosSueldo/'
 
 # 1. Sueldo Promedio de Hombres y Mujeres
@@ -42,7 +43,8 @@ plt.savefig(f'{PathPromedios}sueldo_promedio_bar_chart.png')  # Save the chart
 FilterSueldoEmpleado[Experiencia] = pd.to_numeric(FilterSueldoEmpleado[Experiencia], errors='coerce')
 FilterSueldoEmpleado = FilterSueldoEmpleado.dropna(subset=[Experiencia])
 FilterSueldoEmpleado[Experiencia] = FilterSueldoEmpleado[Experiencia].astype(int)
-FilterSueldoEmpleado['Experiencia'] = pd.cut(FilterSueldoEmpleado[Experiencia], bins=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], labels=['0-5', '6-10', '11-15', '16-20', '21-25', '26-30', '31-35', '36-40', '41-45', '46-50'])
+FilterSueldoEmpleado['Experiencia'] = pd.cut(FilterSueldoEmpleado[Experiencia], bins=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
+                                              labels=['0-5', '6-10', '11-15', '16-20', '21-25', '26-30', '31-35', '36-40', '41-45', '46-50'])
 
 totalExperiencia = FilterSueldoEmpleado.groupby('Experiencia')[Sueldo].mean()
 
@@ -155,8 +157,10 @@ print(f'Sueldo Promedio de Educación Superior Universitaria: {totalEducacionSup
 print(f'Sueldo Promedio de Educación de Postgrados: {totalEducacionPostGrados}')
 
 # Create a bar chart for average salaries by level of education
-labels = ['Ninguno', 'Centro de Alfabetización', 'Jardín de Infantes', 'Jardín de Primaria', 'Educación Básica', 'Secundaria', 'Educación Media', 'Educación Superior No Universitaria', 'Educación Superior Universitaria', 'Educación de Postgrados']
-sizes = [totalNinguno, totalCentroAlfa, totalJardinInfa, totalJardinPrimaria, totalEduBasica, totalSecundaria, totalEducacionMedia, totalEducacionSuperiorNoUniv, totalEducacionSuperiorUniv, totalEducacionPostGrados]
+labels = ['Ninguno', 'Centro de Alfabetización', 'Jardín de Infantes', 'Jardín de Primaria', 'Educación Básica', 'Secundaria', 'Educación Media',
+           'Educación Superior No Universitaria', 'Educación Superior Universitaria', 'Educación de Postgrados']
+sizes = [totalNinguno, totalCentroAlfa, totalJardinInfa, totalJardinPrimaria, totalEduBasica, totalSecundaria, totalEducacionMedia,
+          totalEducacionSuperiorNoUniv, totalEducacionSuperiorUniv, totalEducacionPostGrados]
 colors = ['#66b3ff', '#ff9999', '#99ff99', '#ffcc99', '#c2c2f0', '#ffb3e6', '#ffccff', '#ffcc66', '#c2f0c2', '#ff99cc']
 
 plt.figure(figsize=(14, 8))
@@ -166,3 +170,28 @@ plt.ylabel('Sueldo Promedio')
 plt.title('Sueldo Promedio por Nivel de Instrucción')
 plt.xticks(rotation=15)
 plt.savefig(f'{PathPromedios}sueldo_promedio_por_nivel_instruccion_bar_chart.png')
+
+
+# 6. Sueldo Promedio por Edad
+
+# Calculate average salaries by age
+FilterSueldoEmpleado[Edad] = pd.to_numeric(FilterSueldoEmpleado[Edad], errors='coerce')
+FilterSueldoEmpleado = FilterSueldoEmpleado.dropna(subset=[Edad])
+FilterSueldoEmpleado[Edad] = FilterSueldoEmpleado[Edad].astype(int)
+FilterSueldoEmpleado['Edad'] = pd.cut(FilterSueldoEmpleado[Edad], bins=[0, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+                                      labels=['0-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90', '91-100'])
+
+totalEdad = FilterSueldoEmpleado.groupby('Edad')[Sueldo].mean()
+
+print(f'************************************ Sueldo Promedio por Edad ********************************************')
+print(totalEdad)
+
+# Create a bar chart for average salaries by age
+plt.figure(figsize=(12, 6))
+totalEdad.plot(kind='bar', color='skyblue')
+plt.xlabel('Edad')
+plt.ylabel('Sueldo Promedio')
+plt.title('Sueldo Promedio por Edad')
+plt.savefig(f'{PathPromedios}sueldo_promedio_por_edad_bar_chart.png')  # Save the chart
+# plt.show()
+

@@ -7,14 +7,17 @@ FilterSueldoEmpleado = filtrar_datos()
 
 # VARIABLES GLOBALES
 Sexo = 'p02'
+Edad = 'p03'
 Sueldo = 'p66'
 EstadoCivil = 'p06'
 Experiencia = 'p45'
 Etnia = 'p15'
+Bono = 'Bono'
 NivelInstruccion = 'p10a'
 PathPromedios = 'graficos/medidasEstadisticas/'
 
 # Limpieza de datos: reemplazar espacios en blanco o cadenas vacías por NaN
+FilterSueldoEmpleado[Edad] = FilterSueldoEmpleado[Edad].replace(' ', pd.NA)
 FilterSueldoEmpleado[Experiencia] = FilterSueldoEmpleado[Experiencia].replace(' ', pd.NA)
 FilterSueldoEmpleado[Sueldo] = FilterSueldoEmpleado[Sueldo].replace(' ', pd.NA)
 FilterSueldoEmpleado[EstadoCivil] = FilterSueldoEmpleado[EstadoCivil].replace(' ', pd.NA)
@@ -25,6 +28,7 @@ FilterSueldoEmpleado[NivelInstruccion] = FilterSueldoEmpleado[NivelInstruccion].
 FilterSueldoEmpleado = FilterSueldoEmpleado.dropna(subset=[Experiencia, Sueldo, EstadoCivil, Etnia, NivelInstruccion])
 
 # Convertir las columnas a numérico, errores se manejan con 'coerce'
+FilterSueldoEmpleado.loc[:, Edad] = pd.to_numeric(FilterSueldoEmpleado[Edad], errors='coerce')
 FilterSueldoEmpleado.loc[:, Experiencia] = pd.to_numeric(FilterSueldoEmpleado[Experiencia], errors='coerce')
 FilterSueldoEmpleado.loc[:, Sueldo] = pd.to_numeric(FilterSueldoEmpleado[Sueldo], errors='coerce')
 FilterSueldoEmpleado.loc[:, EstadoCivil] = pd.to_numeric(FilterSueldoEmpleado[EstadoCivil], errors='coerce')
@@ -33,8 +37,20 @@ FilterSueldoEmpleado.loc[:, NivelInstruccion] = pd.to_numeric(FilterSueldoEmplea
 
 # Calcular la matriz de correlación
 print('************************************ Matriz de Correlación ********************************************')
-correlation_matrix = FilterSueldoEmpleado.corr()
+# QUIERO QUE LA MATRIZ DE CORRELACION FilterSueldoEmpleado SOLO SE MUESTREN LAS COLUMNAS p45, p66, p03, Bono
+FilterSueldoEmpleadoCorr = FilterSueldoEmpleado[[Experiencia, Sueldo, Edad, Bono]]
+correlation_matrix = FilterSueldoEmpleadoCorr.corr()
 print(correlation_matrix)
+
+# Crear un gráfico de calor para la matriz de correlación
+plt.figure(figsize=(10, 8))
+plt.matshow(correlation_matrix, cmap='coolwarm', fignum=1)
+plt.colorbar()
+plt.xticks(range(len(correlation_matrix.columns)), correlation_matrix.columns, rotation=45, ha='left')
+plt.yticks(range(len(correlation_matrix.columns)), correlation_matrix.columns)
+plt.title('Matriz de Correlación')
+plt.savefig(PathPromedios + 'correlation_matrix_heatmap.png')  # Guarda el gráfico como un archivo
+
 
 # Calcular las medidas estadísticas
 print('************************************ Medidas Estadísticas ********************************************')
@@ -98,7 +114,8 @@ print(f'Cuartiles del Nivel de Instrucción:\n{cuartiles_nivel_instruccion}')
 
 # Crear un gráfico de caja para los cuartiles de las variables
 plt.figure(figsize=(10, 8))
-data_to_plot = [FilterSueldoEmpleado[Experiencia], FilterSueldoEmpleado[Sueldo], FilterSueldoEmpleado[EstadoCivil], FilterSueldoEmpleado[Etnia], FilterSueldoEmpleado[NivelInstruccion]]
+data_to_plot = [FilterSueldoEmpleado[Experiencia], FilterSueldoEmpleado[Sueldo], FilterSueldoEmpleado[EstadoCivil],
+                 FilterSueldoEmpleado[Etnia], FilterSueldoEmpleado[NivelInstruccion]]
 labels = ['Experiencia', 'Sueldo', 'Estado Civil', 'Etnia', 'Nivel de Instrucción']
 box = plt.boxplot(data_to_plot, patch_artist=True, tick_labels=labels)
 
@@ -127,7 +144,8 @@ print('Asimetría del Nivel de Instrucción: ', FilterSueldoEmpleado[NivelInstru
 
 # Crear un gráfico de barras para las medidas estadísticas
 labels = ['Experiencia', 'Sueldo', 'Estado Civil', 'Etnia', 'Nivel de Instrucción']
-sizes = [FilterSueldoEmpleado[Experiencia].mean(), FilterSueldoEmpleado[Sueldo].mean(), FilterSueldoEmpleado[EstadoCivil].mean(), FilterSueldoEmpleado[Etnia].mean(), FilterSueldoEmpleado[NivelInstruccion].mean()]
+sizes = [FilterSueldoEmpleado[Experiencia].mean(), FilterSueldoEmpleado[Sueldo].mean(), FilterSueldoEmpleado[EstadoCivil].mean(), 
+         FilterSueldoEmpleado[Etnia].mean(), FilterSueldoEmpleado[NivelInstruccion].mean()]
 colors = ['#66b3ff', '#ff9999', '#ffcc99', '#99ff99', '#ff6666']
 
 plt.figure(figsize=(8, 6))
@@ -138,7 +156,8 @@ plt.title('Medias de las Variables')
 plt.savefig(PathPromedios + 'medias_bar_chart.png')  # Guarda el gráfico como un archivo
 
 # Crear un gráfico de barras para las medidas estadísticas
-sizes = [FilterSueldoEmpleado[Experiencia].median(), FilterSueldoEmpleado[Sueldo].median(), FilterSueldoEmpleado[EstadoCivil].median(), FilterSueldoEmpleado[Etnia].median(), FilterSueldoEmpleado[NivelInstruccion].median()]
+sizes = [FilterSueldoEmpleado[Experiencia].median(), FilterSueldoEmpleado[Sueldo].median(), FilterSueldoEmpleado[EstadoCivil].median(),
+          FilterSueldoEmpleado[Etnia].median(), FilterSueldoEmpleado[NivelInstruccion].median()]
 
 plt.figure(figsize=(8, 6))
 plt.bar(labels, sizes, color=colors)
@@ -148,7 +167,8 @@ plt.title('Medianas de las Variables')
 plt.savefig(PathPromedios + 'medianas_bar_chart.png')  # Guarda el gráfico como un archivo
 
 # Crear un gráfico de barras para las medidas estadísticas
-sizes = [FilterSueldoEmpleado[Experiencia].mode()[0], FilterSueldoEmpleado[Sueldo].mode()[0], FilterSueldoEmpleado[EstadoCivil].mode()[0], FilterSueldoEmpleado[Etnia].mode()[0], FilterSueldoEmpleado[NivelInstruccion].mode()[0]]
+sizes = [FilterSueldoEmpleado[Experiencia].mode()[0], FilterSueldoEmpleado[Sueldo].mode()[0], FilterSueldoEmpleado[EstadoCivil].mode()[0], 
+         FilterSueldoEmpleado[Etnia].mode()[0], FilterSueldoEmpleado[NivelInstruccion].mode()[0]]
 
 plt.figure(figsize=(8, 6))
 plt.bar(labels, sizes, color=colors)
@@ -158,7 +178,8 @@ plt.title('Modas de las Variables')
 plt.savefig(PathPromedios + 'modas_bar_chart.png')  # Guarda el gráfico como un archivo
 
 # Crear un gráfico de barras para las medidas estadísticas
-sizes = [FilterSueldoEmpleado[Experiencia].std(), FilterSueldoEmpleado[Sueldo].std(), FilterSueldoEmpleado[EstadoCivil].std(), FilterSueldoEmpleado[Etnia].std(), FilterSueldoEmpleado[NivelInstruccion].std()]
+sizes = [FilterSueldoEmpleado[Experiencia].std(), FilterSueldoEmpleado[Sueldo].std(), FilterSueldoEmpleado[EstadoCivil].std(),
+          FilterSueldoEmpleado[Etnia].std(), FilterSueldoEmpleado[NivelInstruccion].std()]
 
 plt.figure(figsize=(8, 6))
 plt.bar(labels, sizes, color=colors)

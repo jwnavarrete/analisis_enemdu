@@ -89,7 +89,8 @@ print(f'Promedio Bono Otro: {promedioBonoOtro}')
 
 # Create a bar chart for the average
 labels = ['Indígena', 'Afroecuatoriano', 'Negro', 'Mulato', 'Montubio', 'Mestizo', 'Blanco', 'Otro']
-sizes = [promedioBonoIndigena, promedioBonoAfroecuatoriano, promedioBonoNegro, promedioBonoMulato, promedioBonoMontubio, promedioBonoMestizo, promedioBonoBlanco, promedioBonoOtro]
+sizes = [promedioBonoIndigena, promedioBonoAfroecuatoriano, promedioBonoNegro, promedioBonoMulato, promedioBonoMontubio,
+          promedioBonoMestizo, promedioBonoBlanco, promedioBonoOtro]
 colors = ['#66b3ff', '#ff9999', '#99ff99', '#ffcc99', '#c2c2f0', '#ffb3e6', '#c4e17f', '#76d7c4']
 
 plt.figure(figsize=(12, 6))
@@ -157,7 +158,8 @@ print(f'Promedio Bono Educación de Postgrados: {promedioBonoEducacionPostGrados
 
 # Create a bar chart for the average
 labels = ['Ninguno', 'Alfabetización', 'Infantes', 'Primaria', 'Básica', 'Secundaria', 'Media', 'Sup. No Univ', 'Sup. Univ', 'Postgrados']
-sizes = [promedioBonoNinguno, promedioBonoCentroAlfa, promedioBonoJardinInfa, promedioBonoJardinPrimaria, promedioBonoEduBasica, promedioBonoSecundaria, promedioBonoEducacionMedia, promedioBonoEducacionSuperiorNoUniv, promedioBonoEducacionSuperiorUniv, promedioBonoEducacionPostGrados]
+sizes = [promedioBonoNinguno, promedioBonoCentroAlfa, promedioBonoJardinInfa, promedioBonoJardinPrimaria, promedioBonoEduBasica,
+          promedioBonoSecundaria, promedioBonoEducacionMedia, promedioBonoEducacionSuperiorNoUniv, promedioBonoEducacionSuperiorUniv, promedioBonoEducacionPostGrados]
 colors = ['#66b3ff', '#ff9999', '#99ff99', '#ffcc99', '#c2c2f0', '#ffb3e6', '#c4e17f', '#76d7c4', '#ffb347', '#ff6961']
 
 plt.figure(figsize=(12, 6))

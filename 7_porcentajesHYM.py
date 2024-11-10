@@ -359,7 +359,8 @@ print(f'Porcentaje de Educación de Postgrados: {porcentajeEducacionPostGradosMu
 labels_instruccion_mujeres = ['Ninguno', 'Centro Alfa', 'Jardín Inf.', 'Jardín Prim.', 'Edu. Básica', 
                       'Secundaria', 'Edu. Media', 'Sup. No Univ.', 'Sup. Univ.', 'Postgrados']
 sizes_instruccion_mujeres = [porcentajeNingunoMujeres, porcentajeCentroAlfaMujeres, porcentajeJardinInfaMujeres, porcentajeJardinPrimariaMujeres, porcentajeEduBasicaMujeres, 
-                     porcentajeSecundariaMujeres, porcentajeEducacionMediaMujeres, porcentajeEducacionSuperiorNoUnivMujeres, porcentajeEducacionSuperiorUnivMujeres, porcentajeEducacionPostGradosMujeres]
+                     porcentajeSecundariaMujeres, porcentajeEducacionMediaMujeres, porcentajeEducacionSuperiorNoUnivMujeres, porcentajeEducacionSuperiorUnivMujeres,
+                       porcentajeEducacionPostGradosMujeres]
 colors_instruccion_mujeres = ['#66b3ff', '#ff9999', '#ffcc99', '#99ff99', '#66ff66', '#ff6666', '#ffcc66', '#c2c2f0', '#ffb3e6', '#c2f0c2']
 
 plt.figure(figsize=(10, 7))
